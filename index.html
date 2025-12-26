@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>自我介绍 | About Me</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=EB+Garamond:wght@400;600&display=swap");
+
+    :root{
+      --ink: #12161c;
+      --paper: #f7f3ea;
+      --paper2:#efe8da;
+      --wash: rgba(18,22,28,.10);
+      --seal: #8b1e1e;
+      --gold: #8a6a2b;
+      --card: rgba(247,243,234,.82);
+      --border: rgba(18,22,28,.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body{
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      overflow: hidden;
+      background:
+        radial-gradient(1200px 900px at 20% 15%, rgba(18,22,28,.10), transparent 55%),
+        radial-gradient(900px 700px at 80% 20%, rgba(139,30,30,.06), transparent 60%),
+        radial-gradient(1200px 1000px at 60% 85%, rgba(138,106,43,.08), transparent 55%),
+        linear-gradient(180deg, var(--paper), var(--paper2));
+      font-family: "Noto Serif SC", serif;
+    }
+
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .22;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(18,22,28,.02), rgba(18,22,28,.02) 1px, transparent 1px, transparent 6px),
+        repeating-linear-gradient(90deg, rgba(18,22,28,.015), rgba(18,22,28,.015) 1px, transparent 1px, transparent 7px);
+      mix-blend-mode: multiply;
+    }
+
+    canvas{
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .wrap{
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 48px 18px;
+    }
+
+    .card{
+      width: min(980px, 92vw);
+      background: var(--card);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow:
+        0 18px 60px rgba(18,22,28,.10),
+        0 2px 0 rgba(255,255,255,.45) inset;
+      padding: clamp(22px, 4.2vw, 42px);
+      position: relative;
+    }
+
+    /* 右上角“印章”点题（很淡，偏学术） */
+    .seal{
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      border: 1px solid rgba(139,30,30,.28);
+      color: rgba(139,30,30,.82);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      letter-spacing: .22em;
+      font-weight: 600;
+      background: rgba(139,30,30,.04);
+      font-family: "Noto Serif SC", serif;
+      user-select: none;
+    }
+
+    header{
+      display: grid;
+      gap: 10px;
+      margin-bottom: 24px;
+      padding-right: 90px;
+    }
+
+    h1{
+      margin: 0;
+      font-size: clamp(26px, 3.2vw, 38px);
+      font-weight: 600;
+      letter-spacing: .02em;
+    }
+
+    .subtitle{
+      margin: 0;
+      font-family: "EB Garamond", serif;
+      font-size: clamp(16px, 2vw, 20px);
+      color: rgba(18,22,28,.78);
+      line-height: 1.4;
+    }
+
+    .divider{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(18,22,28,.18), transparent);
+      margin: 22px 0 18px;
+    }
+
+    .grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    @media (max-width: 760px){
+      .grid{ grid-template-columns: 1fr; }
+      header{ padding-right: 0; }
+      .seal{ position: static; width: fit-content; margin-left: auto; }
+    }
+
+    .panel{
+      border: 1px solid rgba(18,22,28,.10);
+      background: rgba(255,255,255,.38);
+      border-radius: 16px;
+      padding: 16px 16px 14px;
+      box-shadow: 0 1px 0 rgba(255,255,255,.45) inset;
+    }
+
+    .label{
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin: 0 0 10px;
+      font-size: 13px;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: rgba(18,22,28,.70);
+    }
+
+    .label::after{
+      content:"";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(18,22,28,.18), transparent);
+      transform: translateY(-2px);
+      opacity: .8;
+    }
+
+    .text{
+      margin: 0;
+      line-height: 1.9;
+      font-size: 16px;
+      color: rgba(18,22,28,.92);
+    }
+
+    .en{
+      font-family: "EB Garamond", serif;
+      font-size: 17px;
+      line-height: 1.8;
+      color: rgba(18,22,28,.88);
+    }
+
+    footer{
+      margin-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 12px;
+      color: rgba(18,22,28,.60);
+    }
+
+    .tags{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .tag{
+      border: 1px solid rgba(18,22,28,.14);
+      background: rgba(247,243,234,.6);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: .02em;
+      color: rgba(18,22,28,.72);
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="dust"></canvas>
+
+  <div class="wrap">
+    <main class="card">
+
+      <header>
+        <h1>自我介绍 / About Me</h1>
+        <p class="subtitle">Sociocultural Anthropology · Digital & Animated Cultures in Contemporary China</p>
+      </header>
+
+      <div class="divider"></div>
+
+      <section class="grid">
+        <div class="panel">
+          <div class="label">English</div>
+          <p class="text en">
+            I am a prospective PhD student in sociocultural anthropology studying digital and animated cultures in contemporary China.
+            My work examines how avatar-based and 2.5D practices shape belonging, moral life, and social relations across online and urban spaces.
+            I am especially interested in media, infrastructure, performance, and affect.
+          </p>
+        </div>
+
+        <div class="panel">
+          <div class="label">中文</div>
+          <p class="text">
+            我是一名拟攻读社会文化人类学博士的研究者，研究当代中国的数字文化与动画文化。
+            我的工作关注以虚拟形象与“2.5D”实践为核心的文化形式，如何在网络与城市空间之间塑造人们的归属感、道德生活与社会关系。
+            我尤其关注媒介、基础设施、表演性与情感等议题。
+          </p>
+        </div>
+      </section>
+
+      <footer>
+        <div>© 2025 · Weixuan Kong</div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // 粒子
+    const canvas = document.getElementById("dust");
+    const ctx = canvas.getContext("2d", { alpha: true });
+
+    let w, h, dpr;
+
+    function resize(){
+      dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      w = canvas.width  = Math.floor(window.innerWidth  * dpr);
+      h = canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    const N = 140;
+    const particles = [];
+    const rand = (a,b)=>a+Math.random()*(b-a);
+
+    function seed(){
+      particles.length = 0;
+      for(let i=0;i<N;i++){
+        particles.push({
+          x: rand(0, window.innerWidth),
+          y: rand(0, window.innerHeight),
+          r: rand(0.6, 2.4),
+          vx: rand(-0.10, 0.10),
+          vy: rand(-0.06, 0.06),
+          type: Math.random() < 0.78 ? "ink" : "gold",
+          a: rand(0.06, 0.18)
+        });
+      }
+    }
+    seed();
+
+    function draw(){
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      const g = ctx.createRadialGradient(
+        window.innerWidth * 0.25, window.innerHeight * 0.18, 20,
+        window.innerWidth * 0.25, window.innerHeight * 0.18, 520
+      );
+      g.addColorStop(0, "rgba(18,22,28,0.09)");
+      g.addColorStop(1, "rgba(18,22,28,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+      for(const p of particles){
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if(p.x < -20) p.x = window.innerWidth + 20;
+        if(p.x > window.innerWidth + 20) p.x = -20;
+        if(p.y < -20) p.y = window.innerHeight + 20;
+        if(p.y > window.innerHeight + 20) p.y = -20;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+
+        if(p.type === "ink"){
+          ctx.fillStyle = `rgba(18,22,28,${p.a})`;
+        }else{
+          ctx.fillStyle = `rgba(138,106,43,${p.a})`;
+        }
+        ctx.fill();
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+</body>
+</html>

@@ -22,9 +22,11 @@
 
     body{
       margin: 0;
-      min-height: 100vh;
+      min-height: 100svh; /* better on mobile than 100vh */
       color: var(--ink);
-      overflow: hidden;
+      overflow-x: hidden;   /* allow vertical scrolling */
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       background:
         radial-gradient(1200px 900px at 20% 15%, rgba(18,22,28,.10), transparent 55%),
         radial-gradient(900px 700px at 80% 20%, rgba(139,30,30,.06), transparent 60%),
@@ -43,18 +45,20 @@
         repeating-linear-gradient(0deg, rgba(18,22,28,.02), rgba(18,22,28,.02) 1px, transparent 1px, transparent 6px),
         repeating-linear-gradient(90deg, rgba(18,22,28,.015), rgba(18,22,28,.015) 1px, transparent 1px, transparent 7px);
       mix-blend-mode: multiply;
+      z-index: 0;
     }
 
     canvas{
       position: fixed;
       inset: 0;
       z-index: 0;
+      pointer-events: none; /* important: never block scrolling/taps */
     }
 
     .wrap{
       position: relative;
       z-index: 1;
-      min-height: 100vh;
+      min-height: 100svh;
       display: grid;
       place-items: center;
       padding: 48px 18px;
@@ -172,6 +176,47 @@
       color: rgba(18,22,28,.88);
     }
 
+    /* New: interests section */
+    .section-title{
+      margin: 6px 0 10px;
+      font-size: 13px;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: rgba(18,22,28,.70);
+    }
+
+    .interest-grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 760px){
+      .interest-grid{ grid-template-columns: 1fr; }
+    }
+
+    .interest{
+      border: 1px solid rgba(18,22,28,.10);
+      background: rgba(255,255,255,.30);
+      border-radius: 14px;
+      padding: 14px 14px 12px;
+    }
+
+    .interest h3{
+      margin: 0 0 6px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: .02em;
+    }
+
+    .interest p{
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(18,22,28,.90);
+    }
+
     footer{
       margin-top: 18px;
       display: flex;
@@ -179,23 +224,7 @@
       gap: 12px;
       font-size: 12px;
       color: rgba(18,22,28,.60);
-    }
-
-    .tags{
-      display: flex;
       flex-wrap: wrap;
-      gap: 8px;
-      justify-content: flex-end;
-    }
-
-    .tag{
-      border: 1px solid rgba(18,22,28,.14);
-      background: rgba(247,243,234,.6);
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      letter-spacing: .02em;
-      color: rgba(18,22,28,.72);
     }
   </style>
 </head>
@@ -217,9 +246,9 @@
         <div class="panel">
           <div class="label">English</div>
           <p class="text en">
-            I am a prospective PhD student in sociocultural anthropology focusing on digital and animated cultures in contemporary China.
+            I am a prospective PhD student in sociocultural anthropology, focusing on digital and animated cultures in contemporary China.
             My research explores how practices such as kigurumi, cosplay, and vtubing make fictional and animated forms socially present in everyday life, and how these practices shape experiences of belonging, moral worlds, and social relations across online and urban spaces.
-            I am particularly interested in media, infrastructure, performance, and affect.
+            I am particularly interested in media, infrastructure, performance, gendered intimacy, and affect.
           </p>
         </div>
 
@@ -227,12 +256,36 @@
           <div class="label">中文</div>
           <p class="text">
             我是一名拟攻读社会文化人类学博士的研究者，研究当代中国的数字文化与动画文化。
-            我的研究关注诸如kigurumi、cosplay与vtubing等实践，如何使虚构与动画形式在日常生活中变得“社会性在场”，并由此塑造人们的归属感、道德世界与社会关系，在网络与城市空间之间展开。
-            我尤其关注媒介、基础设施、表演性与情感等议题。
+            我的研究关注诸如 kigurumi、cosplay 与 vtubing 等实践如何使虚构与动画形式在日常生活中变得“社会性在场”，并进一步塑造人们的归属感、道德世界与社会关系，使其在网络与城市空间之间展开与流动。
+            我尤其关注媒介、基础设施、表演性、性别化的亲密关系与情感等议题。
           </p>
         </div>
       </section>
 
+      <div class="divider"></div>
+
+      <!-- New content: Psychological Anthropology next to Linguistic Anthropology -->
+      <section>
+        <div class="section-title">Additional interests</div>
+
+        <div class="interest-grid">
+          <div class="interest">
+            <h3>Linguistic Anthropology</h3>
+            <p>
+              How language, voice, and semiotic forms travel across platforms, and how they mediate personhood, identity,
+              and sociality in digitally networked life.
+            </p>
+          </div>
+
+          <div class="interest">
+            <h3>Psychological Anthropology</h3>
+            <p>
+              How emotions, attention, moral experience, and everyday understandings of the self are shaped through media practices,
+              intimate relationships, and changing social worlds.
+            </p>
+          </div>
+        </div>
+      </section>
 
       <footer>
         <div>© 2025 · Weixuan Kong · wkong6 [at] u.rochester.edu</div>
